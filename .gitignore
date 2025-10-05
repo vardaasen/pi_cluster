@@ -24,3 +24,14 @@ Session.vim
 __pycache__/
 *.egg-info/
 *.egg
+
+# project files
+cluster.data
+nodes.conf
+project.conf
+
+# project log files
+logs/
+
+# local environment files
+.env
