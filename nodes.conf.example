@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Static list, one node per line
+# each node name should match with ssh aliases in your .ssh/config
+pi-node-1
+pi-node-2
+pi-node-3
+pi-node-4
