@@ -6,7 +6,7 @@ source ./messages.sh
 log_init
 
 PROJECT_CONF="project.conf"
-NODES_CONF="nodes.conf"
+NODES_CONF="../nodes.conf"
 
 run_first_time_setup() {
     clear

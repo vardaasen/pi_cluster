@@ -24,6 +24,7 @@ Session.vim
 __pycache__/
 *.egg-info/
 *.egg
+.venv/
 
 # project files
 cluster.data

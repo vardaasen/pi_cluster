@@ -7,14 +7,39 @@
 # shellcheck source=./logging.sh
 . ./logging.sh
 log_init
-CONFIG_FILE="nodes.conf"
+CONFIG_FILE="../nodes.conf"
 DATA_FILE="cluster.data"
+
+confirm_and_clean() {
+    if [ ! -f "$DATA_FILE" ]; then
+        return # No old data found, so we can proceed safely
+    fi
+
+    # Warn the user and ask for confirmation
+    read -p "🚨 WARNING: Existing cluster data found. Re-generating will destroy all Kafka data. Are you sure? (y/N) " -n 1 -r
+    echo # Move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted by user."
+        exit 1
+    fi
+
+    # If the user confirmed, clean up the old volumes
+    echo "--- 🔥 Destroying old cluster data on all nodes... ---"
+    source "$DATA_FILE"
+    for (( i=1; i<=NODE_COUNT; i++ )); do
+        local alias_var="NODE_${i}_ALIAS"; local alias="${!alias_var}"
+        echo "  -> Cleaning up $alias"
+        ssh "$alias" 'docker compose down --volumes'
+	check_error
+    done
+}
 
 main() {
     local NODE_ID
     local quorum_voters
     local IP
     local CLUSTER_ID
+    confirm_and_clean
 
     log_info "$INFO_READING_NODE_ALIASES" "$CONFIG_FILE"
     mapfile -t PI_ALIASES < <( \

@@ -22,6 +22,7 @@ stop_cluster() {
         alias="${!alias_var}"
         log_info "  -> Stopping Kafka on $alias"
         ssh "$alias" 'docker compose down' &
+        check_error
     done
 
     wait

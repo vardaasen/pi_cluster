@@ -12,25 +12,20 @@ log_init() {
 }
 
 log_emit() {
-    local level
-    local fmt
-    local wanted
-    local actual
-    local ts
-    local msg
-
-    level=$1; shift
-    fmt=$1; shift
-    wanted=${_LOG_LEVELS[$LOG_LEVEL]:-2}
-    actual=${_LOG_LEVELS[$level]:-2}
-
-    (( actual > wanted )) && return 0
-
-    ts=$(date -Ins)
-    msg=$(printf "$fmt" "$@")
-    printf "%s [%s] %s\n" "$ts" "$level" "$msg" >>"$LOG_FILE"
-    [ "$LOG_STDOUT" = true ] && printf "%s [%s] %s\n" "$ts" "$level" "$msg"
+    local level=$1
+    shift
+    local format=$1
+    shift
+    
+    local timestamp
+    timestamp=$(date -u +"%Y-%m-%dT%H:%M:%S,%N000%z")
+    
+    # Use -- to signal the end of options to printf
+    printf -- "${timestamp} [%s] " "$level"
+    printf -- "$format" "$@"
+    printf "\n"
 }
+
 
 log_error(){ log_emit ERROR "$@"; }
 log_warn(){ log_emit WARN "$@"; }
@@ -48,7 +43,7 @@ check_error() {
     failed_command=$BASH_COMMAND
     message=${1:-"Command failed"}
     if [ $exit_code -ne 0 ]; then
-	    log_error "%s (exit %d) %s\n" "$message" "$exit_code" "$failed_command" >&2
+        log_error "%s (exit code: %d): %s\n" "$message" "$exit_code" "$failed_command"
         exit $exit_code
     fi
 }
