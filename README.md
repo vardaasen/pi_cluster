@@ -1,4 +1,5 @@
 # Project working with multiple raspberry pi's in a cluster
+[![License: CeCILL-B](https://img.shields.io/badge/License-CeCILL--B-green.svg?style=for-the-badge)](LICENSE)
 
 The `.ssh/` directory holds a mock SSH configuration to help you create your own setup.
 See [`.ssh/README.md`](./.ssh/README.md) for the step-by-step guide.
@@ -50,3 +51,11 @@ pi-node-4
 
 The bash directory holds the bash version for generating the cluster.
 `chmod +x main_menu.sh` and run the main_menu script by executing `./main_menu.sh`
+
+## Community and License
+Copyright (c) 2025 vardaasen
+[![License: CeCILL-B](https://img.shields.io/badge/License-CeCILL--B-green.svg?style=for-the-badge)](LICENSE)
+
+see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
