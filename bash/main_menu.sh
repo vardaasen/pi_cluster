@@ -57,7 +57,7 @@ options=(
     "$TUI_DEPLOY_OPTION"
     "Start Kafka Cluster"
     "Stop Kafka Cluster"
-    "Quit"
+    "About/Quit"
 )
 
 print_header() {
@@ -99,7 +99,7 @@ while true; do
                 echo "-> Stop script not yet implemented."
                 break
                 ;;
-            "Quit")
+            "About/Quit")
                 log_info "$TUI_QUIT"
                 exit 0
                 ;;
